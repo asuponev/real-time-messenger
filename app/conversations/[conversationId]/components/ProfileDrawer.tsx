@@ -9,6 +9,7 @@ import { Conversation, User } from '@prisma/client'
 import useOtherUser from '@/app/hooks/useOtherUser'
 import Avatar from '@/app/components/Avatar'
 import ConfirmModal from './ConfirmModal'
+import AvatarGroup from '@/app/components/AvatarGroup'
 
 interface IProfileDrawerProps {
   data: Conversation & {
@@ -44,7 +45,7 @@ const ProfileDrawer: React.FC<IProfileDrawerProps> = ({
 
   return (
     <>
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={confirmOpen}
         onClose={() => setConfirmOpen(false)}
       />
@@ -100,7 +101,11 @@ const ProfileDrawer: React.FC<IProfileDrawerProps> = ({
                       <div className='relative mt-6 flex-1 px-4 sm:px-6'>
                         <div className='flex flex-col items-center'>
                           <div className='mb-2'>
-                            <Avatar user={otherUser} />
+                            {data.isGroup ? (
+                              <AvatarGroup users={data.users} />
+                            ) : (
+                              <Avatar user={otherUser} />
+                            )}
                           </div>
                           <div>
                             {title}
@@ -123,6 +128,16 @@ const ProfileDrawer: React.FC<IProfileDrawerProps> = ({
                           </div>
                           <div className='w-full pb-5 pt-5 sm:px-0 sm:pt-0'>
                             <dl className='space-y-8 px-4 sm:space-y-6 sm:px-6'>
+                              {data.isGroup && (
+                                <div>
+                                  <dt className='text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0'>
+                                    Emails
+                                  </dt>
+                                  <dd className='mt-1 text-sm text-gray-900 sm:col-span-2'>
+                                    {data.users.map((user) => user.email).join(', ')}
+                                  </dd>
+                                </div>
+                              )}
                               {!data.isGroup && (
                                 <div>
                                   <dt className='text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0'>
