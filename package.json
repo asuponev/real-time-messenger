@@ -39,11 +39,13 @@
     "react-select": "^5.7.3",
     "react-spinners": "^0.13.8",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.195",
+    "encoding": "^0.1.13",
     "prisma": "^4.14.1"
   }
 }

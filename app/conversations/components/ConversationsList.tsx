@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import clsx from 'clsx'
 import { MdOutlineGroupAdd } from 'react-icons/md'
-import { find } from 'lodash'
+import { find, uniq } from 'lodash'
 
 import { pusherClient } from '@/app/libs/pusher'
 import { FullConversationType } from '@/app/types'
@@ -68,23 +68,12 @@ const ConversationsList: React.FC<IConversationsListProps> = ({
       setItems((current) => {
         return [...current.filter((item) => item.id !== conversation.id)]
       })
-
-      if (conversationId === conversation.id) {
-        router.push('/conversations')
-      }
     }
 
     pusherClient.bind('conversation:new', newHandler)
     pusherClient.bind('conversation:update', updateHandler)
     pusherClient.bind('conversation:remove', removeHandler)
-
-    return () => {
-      pusherClient.unsubscribe(pusherKey)
-      pusherClient.unbind('conversation:new', newHandler)
-      pusherClient.unbind('conversation:update', updateHandler)
-      pusherClient.unbind('conversation:remove', removeHandler)
-    }
-  }, [pusherKey, conversationId, router])
+  }, [pusherKey, router])
 
   return (
     <>
